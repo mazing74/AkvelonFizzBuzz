@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 
 namespace FizzBuzz
 {
@@ -12,7 +8,7 @@ namespace FizzBuzz
         Fizz,
         Buzz,
         FizzBuzz,
-        
+
     }
     public class FizzBuzzDetector
     {
@@ -32,8 +28,53 @@ namespace FizzBuzz
                 throw new ArgumentException("Input must be between 7 and 100 characters long.", "input");
             }
         }
-        private string[] SplitIntoWords(string input)
+
+        private List<WordToken> Tokenize(string input)
         {
+            List<WordToken> words = new();
+
+            int wordIndex = 0;
+
+            int i = 0;
+
+            while (i < input.Length)
+            {
+                if (char.IsLetterOrDigit(input[i]))
+                {
+                    int start = i;
+                    StringBuilder word = new();
+
+                    while (i < input.Length)
+                    {
+                        char c = input[i];
+
+                        if (char.IsLetterOrDigit(c))
+                        {
+                            word.Append(c);
+                            i++;
+                        }
+                        else if (c == '\'' && i + 1 < input.Length && char.IsLetterOrDigit(input[i + 1]))
+                        {
+                            word.Append(c);
+                            i++;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+
+                    wordIndex++;
+
+                    words.Add(new WordToken(word.ToString(), wordIndex, start, i - start));
+                }
+                else
+                {
+                    i++;
+                }
+            }
+
+            return words;
         }
         private WordType DetermineWordType(int index)
         {
