@@ -34,6 +34,12 @@
                 () => _detector.getOverlappings(null));
         }
 
+        [Fact]
+        public void GetOverlappings_Should_Throw_WhenLengthIsLessThan7()
+        {
+            Assert.Throws<ArgumentException>(
+                () => _detector.getOverlappings("Hello"));
+        }
 
 
     }
